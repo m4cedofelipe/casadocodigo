@@ -1,7 +1,10 @@
 package br.com.casadocodigo.loja.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +20,11 @@ public class ProdutoDAO {
 	
 	public void gravar(Produto produto) {
 		manager.persist(produto);
+	}
+
+	public List<Produto> listar() {		
+		TypedQuery<Produto> query = manager.createQuery("from Produto ", Produto.class);
+		return query.getResultList();
 	}
 	
 }
