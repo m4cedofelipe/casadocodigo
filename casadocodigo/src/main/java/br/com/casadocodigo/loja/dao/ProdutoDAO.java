@@ -17,14 +17,20 @@ public class ProdutoDAO {
 
 	@PersistenceContext
 	private EntityManager manager;
-	
+
 	public void gravar(Produto produto) {
 		manager.persist(produto);
 	}
 
-	public List<Produto> listar() {		
+	public List<Produto> listar() {
 		TypedQuery<Produto> query = manager.createQuery("from Produto ", Produto.class);
 		return query.getResultList();
 	}
-	
+
+	public Produto find(Integer id) {
+		return manager.createQuery(" Select distinct(p) from Produto p "
+								+ "join fetch p.precos where p.id = :pId ", 
+								Produto.class).setParameter("pId", id).getSingleResult();
+	}
+
 }
